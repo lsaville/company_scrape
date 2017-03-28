@@ -8,5 +8,5 @@ Capybara.register_driver :poltergeist do |app|
 end
 
 # Configure Capybara to use Poltergeist as the driver
-Capybara.default_driver = :poltergeist
+Capybara.default_driver = :selenium
 
