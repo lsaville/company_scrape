@@ -16,14 +16,13 @@ Capybara.default_driver = :poltergeist
 @browser.fill_in 'Email Address', with: 'jobseeker.fantastico@gmail.com'
 @browser.fill_in 'Password', with: 'my-cat-georgia'
 @browser.click_on 'Go!'
-sleep 4
+sleep 5
 @browser.click_on 'Technology Company'
 
 def scrape_company_urls(company_urls=[])
-  sleep 3
+  sleep 5
   pagination = @browser.find 'li.pager-current'
   page_num = pagination.text.to_i
-  binding.pry
   puts "I'm on page #{page_num + 1}"
   links = []
   @browser.within 'div.results.companies' do
@@ -35,9 +34,16 @@ def scrape_company_urls(company_urls=[])
   end
   puts "Finished with this page on to #{page_num + 2}"
   puts "There have been #{company_urls.count} company urls gathered"
-  next_button = @browser.find 'li.pager-next'
-  binding.pry
+  next_button = find_next_button
   next_button ? click_next_and_scrape(company_urls, next_button) : company_urls
+end
+
+def find_next_button
+  if @browser.has_css? 'li.pager-next'
+    @browser.find 'li.pager-next'
+  else
+    nil
+  end
 end
 
 def click_next_and_scrape(company_urls, next_button)
