@@ -14,6 +14,7 @@ class BiCompanyScrape
     scraper = BiCompanyScrape.new
     scraper.sign_on_and_setup
     scraper.scrape_company_urls
+    # this is the part that visits the individual pages...
   end
 
   def sign_on_and_setup
@@ -28,7 +29,8 @@ class BiCompanyScrape
   def scrape_company_urls(company_urls=[])
     sleep 10
     anchors = anchors_from_page
-    company_urls + urls_from_anchors(anchors)
+    urls = urls_from_anchors(anchors)
+    company_urls.concat(urls)
     next_if_possible(company_urls)
   end
 
